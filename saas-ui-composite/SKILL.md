@@ -1,6 +1,6 @@
 ---
 name: saas-ui-composite
-description: Use when a composite from .saas-ui/COMPOSITES.md needs a deep SPEC — user names a composite to spec, says "spec the X composite" / "build the data table spec", runs /saas-ui-composite, or saas-ui-module flags a missing composite SPEC. Produces composites/<name>/ with SPEC, STATES, KEYBOARD, MOTION, EDGE-CASES, LAWS, VARIANTS. Enforces the Action Inventory contract (anti-duplicate-button) and inventory-as-constraint (no atom invention). Next.js (App Router, SSR+CSR). Pre-flight requires saas-ui-bootstrap complete.
+description: Use when a composite from .saas-ui/COMPOSITES.md needs a deep SPEC — user names a composite to spec, says "spec the X composite" / "build the data table spec", runs /saas-ui-composite, or saas-ui-module flags a missing composite SPEC. Produces composites/<name>/ with SPEC, STATES, KEYBOARD, MOTION, EDGE-CASES, LAWS, VARIANTS, IMPLEMENTATION. Enforces the Action Inventory contract (anti-duplicate-button) and inventory-as-constraint (no atom invention). Phase 11 produces IMPLEMENTATION.md tuned to EXECUTION-POSTURE for fastest correct implementation. Next.js (App Router, SSR+CSR). Pre-flight requires saas-ui-bootstrap complete.
 ---
 
 # saas-ui-composite
@@ -55,7 +55,8 @@ The skill runs these phases sequentially. Each phase has its own file in `phases
 | 8 | Edge cases | `EDGE-CASES.md` |
 | 9 | Laws application | `LAWS.md` |
 | 10 | Variants (if canonical) | `VARIANTS.md` |
-| 11 | Checkpoint & hand-off | `.saas-ui/STATE.md` updated |
+| 11 | Implementation Strategy | `IMPLEMENTATION.md` (tuned to EXECUTION-POSTURE) |
+| 12 | Checkpoint & hand-off | `.saas-ui/STATE.md` updated |
 
 The user approves each phase's output before the next begins. Composite SPECs cannot be batched — depth is the whole point.
 
@@ -72,6 +73,7 @@ The user approves each phase's output before the next begins. Composite SPECs ca
       EDGE-CASES.md     ← edge cases with handling rule per case
       LAWS.md           ← composite-level Laws of UX applied here
       VARIANTS.md       ← per-module variants (only if Type = canonical)
+      IMPLEMENTATION.md ← implementation strategy: MVP/V1/CRAFT cuts per EXECUTION-POSTURE
 ```
 
 Names are kebab-case: `data-table/`, `command-palette/`, `filter-builder/`.
@@ -105,7 +107,9 @@ When the composite SPEC is complete:
 - `phases/08-edge-cases.md` — edge cases catalog
 - `phases/09-laws.md` — composite-level Laws of UX
 - `phases/10-variants.md` — per-module variants (canonical composites only)
-- `templates/SPEC.md`, `STATES.md`, `KEYBOARD.md`, `MOTION.md`, `EDGE-CASES.md`, `LAWS.md`, `VARIANTS.md`
+- `phases/11-implementation.md` — implementation strategy tuned to EXECUTION-POSTURE
+- `templates/SPEC.md`, `STATES.md`, `KEYBOARD.md`, `MOTION.md`, `EDGE-CASES.md`, `LAWS.md`, `VARIANTS.md`, `IMPLEMENTATION.md`
 - `references/state-catalog.md` — the 13 canonical states with definitions
 - `references/composite-laws.md` — composite-level Laws of UX cheat-sheet
 - `references/nextjs-primitives.md` — when to use which React 19 / Next.js primitive
+- `references/execution-postures.md` — how SPRINT / BALANCED / CRAFT shape composite implementation

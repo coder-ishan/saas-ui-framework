@@ -43,6 +43,7 @@ All artifacts live under `.saas-ui/` in the user's project root:
   INVENTORY.md         ← discovered design system (tokens, atoms, molecules, gaps)
   MODULES.md           ← module catalog discovered via "first week" interview
   COMPOSITES.md        ← composite catalog discovered via cross-module pattern extraction
+  EXECUTION-POSTURE.md ← project's ship-pace + fidelity commitment (SPRINT / BALANCED / CRAFT)
   references/          ← annotated screenshots + URLs (drop-in or skill-cached)
     <id>.{png,jpg,pdf}
     <id>.md            ← source, extract, applies-to, notes
@@ -50,9 +51,9 @@ All artifacts live under `.saas-ui/` in the user's project root:
 
 The framework's downstream skills (`saas-ui-module`, `saas-ui-composite`, `saas-ui-audit`) consume these artifacts as inputs.
 
-## The 10 phases (chunked, resumable)
+## The 11 phases (chunked, resumable)
 
-Each phase is a focused interview that produces or updates specific artifact sections. The user can do them in one sitting (~90 min total) or across sessions. STATE.md tracks position.
+Each phase is a focused interview that produces or updates specific artifact sections. The user can do them in one sitting (~100 min total) or across sessions. STATE.md tracks position.
 
 | # | Phase | Detail file | Produces / updates |
 |---|---|---|---|
@@ -66,8 +67,11 @@ Each phase is a focused interview that produces or updates specific artifact sec
 | 7 | State model | phases/07-state.md | CONSTITUTION.md (State section) |
 | 8 | Forbidden patterns | phases/08-forbidden.md | CONSTITUTION.md (Forbidden section) |
 | 9 | References | phases/09-references.md | references/ (manifest + annotations) |
+| 10 | Execution posture | phases/10-execution-posture.md | EXECUTION-POSTURE.md |
 
 **PRINCIPLES.md** (Laws of UX at project level) is written cross-cutting — populated as relevant laws emerge during phases 1, 4, 5, 6, 7. Finalized at end.
+
+**EXECUTION-POSTURE.md** is the *implementation* layer's source of truth. Downstream skills (`saas-ui-composite` phase 11, `saas-ui-module` phase 10) read it to decide build order, MVP-vs-V1 cuts, and parallel streams. Without it, downstream skills halt — they need a posture commitment to size scope.
 
 ## Execution protocol
 
@@ -116,6 +120,8 @@ Each phase is a focused interview that produces or updates specific artifact sec
 
 **references/** — annotated reference screenshots and URLs. Each has a `<id>.md` annotation: source, what to extract, which composite/module/principle it applies to.
 
+**EXECUTION-POSTURE.md** — the project's commitment about ship-pace and fidelity. One of three postures (SPRINT / BALANCED / CRAFT) with target ship date, team shape, fidelity target, deferral tolerance. Re-committed when project phase changes (MVP → V1 → V2).
+
 ## Common mistakes
 
 | Mistake | Fix |
@@ -129,7 +135,8 @@ Each phase is a focused interview that produces or updates specific artifact sec
 
 ## Hand-off
 
-When all 10 phases complete:
+When all 11 phases complete:
 - Update STATE.md: `bootstrap: complete`, set `next_skills_available: [saas-ui-module, saas-ui-composite]`
 - Print summary of artifacts produced and where they live
+- Print the committed execution posture from EXECUTION-POSTURE.md so the user starts downstream work with it top-of-mind
 - Suggest first composite to spec (highest cross-module usage from COMPOSITES.md)
