@@ -54,42 +54,56 @@ Polish budget governance: anchor modules get full 12-phase pass; occasional abbr
 
 ---
 
-## Planned
+### `saas-ui-status` — v0.4.0 (2026-05-26)
 
-### `saas-ui-status` (next)
+Lightweight, read-only orchestrator. Single-screen status report covering:
 
-Lightweight orchestrator. Reads `.saas-ui/STATE.md` and surfaces:
+- Bootstrap completion (per-phase progress bar)
+- Posture commitment + freshness (with staleness threshold per posture)
+- Inventory health (atom/molecule/gap counts; P0 gaps highlighted)
+- Composite SPEC progress (with blocking-modules count for leverage)
+- Module design progress (with blocking-composites list)
+- Drift detection (with safe-direction auto-heal offer)
+- Prioritized next-action list (3–5 entries, posture-tuned)
 
-- Which phase of bootstrap is incomplete (if any)
-- Which composites are spec'd vs unspec'd
-- Which composites are blocked by atom gaps
-- Which modules are ready to design vs blocked by missing composites
-- Suggested next action
+Single-command status check: `/saas-ui-status`. Output fits in one terminal screen (~40–60 lines). Optional `--heal` mode auto-corrects safe STATE.md drift (filesystem-confirms-state direction only).
 
-Single-command status check: `/saas-ui-status`. Outputs a one-screen summary.
+### `saas-ui-audit` — v0.4.0 (2026-05-26)
 
-**Estimated effort:** ~1 week. This is mostly read-only orchestration.
+The critic. Lints any artifact (SPEC.md, STATES.md, FLOWS.md) or code against:
+
+- CONSTITUTION — motion, density, copy, state model, forbidden patterns
+- PRINCIPLES — project-level Laws of UX
+- INVENTORY — atom invention sweep
+- common-llm-ui-mistakes.md — all 17 pathologies with detection methodology
+- Composite-level Laws of UX (11 laws)
+- Module-level Laws of UX (6 laws)
+
+Outputs a scorecard with SHIP / NEEDS-FIXES / NEEDS-REVIEW verdict.
+
+Two modes:
+- **Pre-implementation audit** — `/saas-ui-audit composite/<name>` checks artifacts before code is written
+- **Post-implementation audit** — `/saas-ui-audit code:<path>` checks code against artifacts
+
+Plus a `/saas-ui-audit` (no target) project-wide mode that runs cross-artifact consistency checks and a reduced rule set across all artifacts.
+
+**Posture-scaled strictness:**
+- Functional rules + 17 pathologies — always strict
+- Polish-tier rules (composite/module Laws, motion calibration depth, cross-variant consistency) — scale with posture
+- SHIP gate eased under SPRINT (HIGH/CRITICAL only block); strict under CRAFT (any unresolved MEDIUM blocks)
+
+~49 rules across 7 categories. Audit history accumulates in `.saas-ui/audits/<target>/<date>.md` for trend tracking.
 
 ---
 
-### `saas-ui-audit` (last; the critic)
+## Planned (post-v0.4)
 
-The linter. Takes any artifact (`SPEC.md`, `STATES.md`, implementation code) and checks against:
+The framework's 5-skill set is complete. Future direction depends on battle-testing feedback:
 
-- `CONSTITUTION.md` — does the artifact comply with motion, density, copy, state model, forbidden patterns?
-- `PRINCIPLES.md` — are the project-level laws upheld?
-- `INVENTORY.md` — are all referenced atoms in inventory? Any atom invention?
-- `common-llm-ui-mistakes.md` — does the artifact ship any of the 17 known pathologies?
-
-Outputs a scorecard per artifact with pass / fail / argued-deviation per check.
-
-Two modes:
-- **Pre-implementation audit** — checks artifacts before code is written
-- **Post-implementation audit** — checks code against artifacts
-
-The post-implementation audit is what catches the moment when an LLM-implemented composite drifts from its SPEC.
-
-**Estimated effort:** ~4 weeks. This is the most complex skill because every rule needs a verification strategy.
+- **More pathologies.** As LLM-generated UI continues to evolve, new patterns will be observed. Pathology #18+ will be added to `common-llm-ui-mistakes.md` and corresponding detection added to `saas-ui-audit`.
+- **New checks in audit.** Existing rules may need refinement based on false-positive rates observed in real projects.
+- **Refinements to phase prompts.** Interview questions that don't elicit useful answers will be reworded.
+- **Reference document expansion.** Annotated screenshots from real polished products to ground the abstract rules.
 
 ---
 

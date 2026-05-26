@@ -8,8 +8,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- `saas-ui-status` — lightweight orchestrator that reads `.saas-ui/STATE.md` and reports posture, composite SPEC status, module readiness, next-action suggestion
-- `saas-ui-audit` — linter for any artifact against CONSTITUTION, INVENTORY, and the 17 LLM pathologies; posture-scaled strictness
+- Real-project battle-testing reports
+- New pathology entries as observed in LLM output
+- Per-stack ports (Remix, SvelteKit, etc.) — open issue first
+
+---
+
+## [0.4.0] — 2026-05-26
+
+### Added
+- **`saas-ui-status` skill (v0.4.0)** — lightweight, read-only orchestrator
+  - Single-screen status report covering bootstrap completion, posture commitment + freshness, inventory health, composite SPEC progress, module design progress, atom gaps, drift detection
+  - Prioritized next-action list (3–5 entries) tuned to current EXECUTION-POSTURE
+  - Optional `--heal` mode auto-corrects safe STATE.md drift (filesystem-confirms-state direction only; never the reverse)
+  - 4 phases (pre-flight, compute, report, suggest-next), 1 template (STATUS-REPORT.md), 2 references (status-checks.md, next-action-rules.md)
+  - No interviews, no new design artifacts — pure read-and-report
+
+- **`saas-ui-audit` skill (v0.4.0)** — the critic; lints any artifact against the project's rules
+  - Two modes: pre-implementation (artifacts only) and post-implementation (code vs artifacts)
+  - Posture-scaled strictness: functional rules + 17 pathologies always strict; polish-tier rules (composite/module Laws, motion calibration depth) scale with posture (SPRINT/BALANCED/CRAFT)
+  - 7 phases (pre-flight, identify checks, programmatic checks, manual-review surfacing, posture scaling, compose scorecard, remediation)
+  - Scorecard format with verdict (SHIP / NEEDS-FIXES / NEEDS-REVIEW), per-finding severity, evidence, remediation
+  - Audit history accumulates in `.saas-ui/audits/<target>/<date>.md` for trend tracking
+  - ~49 canonical rules across 7 categories (functional, constitution, principle, composite-law, module-law, pathology, drift)
+  - Detection methodology for all 17 LLM pathologies documented in `pathology-detection.md`
+  - 1 template (AUDIT-REPORT.md), 3 references (audit-rules.md, pathology-detection.md, posture-strictness.md)
+
+### Framework status
+
+All 5 planned skills now shipped:
+- saas-ui-bootstrap (v0.3.0)
+- saas-ui-composite (v0.3.0)
+- saas-ui-module (v0.3.0)
+- saas-ui-status (v0.4.0)
+- saas-ui-audit (v0.4.0)
+
+Plus the cross-cutting execution-strategy layer (v0.3.0) tying them together.
 
 ---
 
@@ -70,7 +104,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 6 output templates (CONSTITUTION, PRINCIPLES, INVENTORY, MODULES, COMPOSITES, STATE)
 - MIT license, README, CONTRIBUTING, ROADMAP
 
-[Unreleased]: https://github.com/coder-ishan/saas-ui-framework/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/coder-ishan/saas-ui-framework/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/coder-ishan/saas-ui-framework/releases/tag/v0.4.0
 [0.3.0]: https://github.com/coder-ishan/saas-ui-framework/releases/tag/v0.3.0
 [0.2.0]: https://github.com/coder-ishan/saas-ui-framework/releases/tag/v0.2.0
 [0.1.0]: https://github.com/coder-ishan/saas-ui-framework/releases/tag/v0.1.0

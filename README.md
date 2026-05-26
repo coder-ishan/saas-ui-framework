@@ -2,7 +2,7 @@
 
 > A multi-skill Claude Code framework for building enterprise SaaS UIs with the meticulousness of Linear and the extensiveness of ClickUp.
 
-**Status:** Three of five skills shipped (plus the cross-cutting execution-strategy layer). Battle-testing in progress.
+**Status:** All five skills shipped (plus the cross-cutting execution-strategy layer). Battle-testing in progress.
 **Stack:** Next.js (App Router, SSR+CSR). React 19.
 **Author:** [@coder-ishan](https://github.com/coder-ishan)
 
@@ -29,8 +29,8 @@ It's structured as a sequence of skills that mirror how a thoughtful design-engi
 1. **`saas-ui-bootstrap`** — initial interview that produces the constitution, catalogs, and execution-posture commitment (shipped, v0.3.0)
 2. **`saas-ui-composite`** — per-composite deep SPEC + implementation strategy (DataTable, CommandPalette, etc.) — shipped, v0.3.0
 3. **`saas-ui-module`** — per-module flow design + build order — shipped, v0.3.0
-4. **`saas-ui-status`** — orchestrator that tells you where you are (next)
-5. **`saas-ui-audit`** — the critic; lints any artifact against the constitution, posture-scaled strictness (coming soon)
+4. **`saas-ui-status`** — lightweight, read-only orchestrator that reports project state and prioritizes next actions — shipped, v0.4.0
+5. **`saas-ui-audit`** — the critic; lints artifacts and code against the constitution with posture-scaled strictness — shipped, v0.4.0
 
 **Cross-cutting:** v0.3.0 added the **execution-strategy layer** — a single posture commitment (SPRINT / BALANCED / CRAFT) in bootstrap that flows downstream into composite IMPLEMENTATION.md and module BUILD-ORDER.md. Same design artifacts → different implementation cuts depending on what the team is shipping for.
 
@@ -45,8 +45,8 @@ The framework is influenced by GSD's architectural pattern of multi-skill workfl
 | [`saas-ui-bootstrap/`](saas-ui-bootstrap/) | ✅ v0.3.0 | 11-phase interview producing `.saas-ui/CONSTITUTION.md`, `PRINCIPLES.md`, `INVENTORY.md`, `MODULES.md`, `COMPOSITES.md`, `EXECUTION-POSTURE.md`, `STATE.md`. |
 | [`saas-ui-composite/`](saas-ui-composite/) | ✅ v0.3.0 | 12-phase per-composite deep SPEC + implementation strategy. Produces `composites/<name>/{SPEC, STATES, KEYBOARD, MOTION, EDGE-CASES, LAWS, VARIANTS, IMPLEMENTATION}.md`. Enforces the Action Inventory contract (anti-duplicate-button). |
 | [`saas-ui-module/`](saas-ui-module/) | ✅ v0.3.0 | 12-phase per-module flow design. Module-level Laws of UX (Peak-End, Goal-Gradient, Zeigarnik, Serial Position, Flow, Selective Attention). Produces `modules/<name>/{OVERVIEW, FLOWS, LAWS, EMPTY-STATES, COMPOSITES, BUILD-ORDER}.md`. |
-| `saas-ui-status/` | 🚧 next | Lightweight orchestrator. Reads `.saas-ui/STATE.md` + `EXECUTION-POSTURE.md`, tells you what to do next. |
-| `saas-ui-audit/` | 🚧 planned | The critic. Lints artifacts against the Constitution, the Inventory, and 17 LLM UI pathologies. Posture-scaled strictness. |
+| [`saas-ui-status/`](saas-ui-status/) | ✅ v0.4.0 | Lightweight, read-only orchestrator. Reads STATE + EXECUTION-POSTURE + catalogs and prints a single-screen project status with prioritized next-action list. |
+| [`saas-ui-audit/`](saas-ui-audit/) | ✅ v0.4.0 | The critic. Lints artifacts and code against CONSTITUTION, INVENTORY, 17 LLM pathologies, and composite/module Laws of UX. Posture-scaled strictness; functional rules always strict. |
 
 See [ROADMAP.md](ROADMAP.md) for the future skills.
 
@@ -65,6 +65,8 @@ cd saas-ui-framework
 cp -r saas-ui-bootstrap ~/.claude/skills/
 cp -r saas-ui-composite ~/.claude/skills/
 cp -r saas-ui-module ~/.claude/skills/
+cp -r saas-ui-status ~/.claude/skills/
+cp -r saas-ui-audit ~/.claude/skills/
 ```
 
 ### 2. Use
@@ -92,6 +94,24 @@ For each module you want to design at flow level:
 ```
 
 This runs the 12-phase per-module workflow (OVERVIEW, FLOWS, LAWS, EMPTY-STATES, COMPOSITES, BUILD-ORDER) with module-level Laws of UX applied (Peak-End, Goal-Gradient, Zeigarnik, etc.).
+
+To check your place in the workflow at any time:
+
+```
+/saas-ui-status
+```
+
+This prints a single-screen report: bootstrap progress, posture freshness, composite SPEC status, module readiness, atom gaps, and a prioritized next-action list tuned to your current posture.
+
+Before merging code or shipping, audit it:
+
+```
+/saas-ui-audit composite/DataTable       # pre-implementation audit of the SPEC
+/saas-ui-audit code:src/components/DataTable.tsx  # post-implementation audit
+/saas-ui-audit                            # project-wide
+```
+
+The audit produces a scorecard with a SHIP / NEEDS-FIXES / NEEDS-REVIEW verdict, finding-by-finding severity, and concrete remediation steps. Strictness scales to your committed posture — functional rules (atom invention, duplicate buttons, generic empty states, 17 pathologies) are always strict; polish-tier rules ease under SPRINT and tighten under CRAFT.
 
 ### 3. The artifact set
 
