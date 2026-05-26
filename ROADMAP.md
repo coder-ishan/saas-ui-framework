@@ -6,57 +6,57 @@ The framework is planned as five skills. Two shipped; three to go. This document
 
 ## Shipped
 
-### `saas-ui-bootstrap` — v0.1.0 (2026-05-26)
+### `saas-ui-bootstrap` — v0.1.0 / v0.3.0 (2026-05-26)
 
-10-phase project initialization interview. Produces the canonical planning artifacts under `.saas-ui/`:
+11-phase project initialization interview (v0.3.0 added Phase 10: Execution Posture). Produces the canonical planning artifacts under `.saas-ui/`:
 
 - `CONSTITUTION.md` — Motion, Density, Copy, State Model, Forbidden Patterns, Action Affordances
 - `PRINCIPLES.md` — 8 project-level Laws of UX applied to the specific product
 - `INVENTORY.md` — Discovered design-system atoms / molecules / gaps (read-only constraint)
 - `MODULES.md` — Module catalog with tiers (anchor / occasional / rare)
 - `COMPOSITES.md` — Composite catalog with build order
+- `EXECUTION-POSTURE.md` — Ship-pace + fidelity commitment (SPRINT / BALANCED / CRAFT)
 - `STATE.md` — Phase tracking
 
-### `saas-ui-composite` — v0.2.0 (2026-05-26)
+### `saas-ui-composite` — v0.2.0 / v0.3.0 (2026-05-26)
 
-11-phase per-composite deep SPEC generator. For each composite in `.saas-ui/COMPOSITES.md`, produces `composites/<name>/`:
+12-phase per-composite deep SPEC generator (v0.3.0 added Phase 11: Implementation Strategy). For each composite in `.saas-ui/COMPOSITES.md`, produces `composites/<name>/`:
 
 - `SPEC.md` — purpose, contract, non-goals, action inventory, anatomy, atoms in use, primitive gaps, rendering (Next.js boundary, Suspense, React 19 primitives), composition rules
 - `STATES.md` — 13 canonical states + cross-state rules + optional state machine
 - `KEYBOARD.md` — shortcuts, conflict resolutions, focus contract, escape ladder, ARIA roles
 - `MOTION.md` — overrides only (canonical from CONSTITUTION)
-- `EDGE-CASES.md` — canonical checklist (input, interaction, concurrency, permission, browser, accessibility, data shape, time-zone) with per-case handling rules
+- `EDGE-CASES.md` — canonical checklist with per-case handling rules
 - `LAWS.md` — 11 composite-level Laws of UX applied with verification rules
 - `VARIANTS.md` — per-module deltas (canonical composites only)
+- `IMPLEMENTATION.md` — MVP/V1/CRAFT cuts, build order, parallelization, defer list, test priority, stub strategy — tuned to EXECUTION-POSTURE
 
 This skill is where the **Action Inventory contract** lives — the single most important rule in the framework. It catches duplicate-purpose affordances before any code is written.
+
+### `saas-ui-module` — v0.3.0 (2026-05-26)
+
+12-phase per-module flow design. For each module in `.saas-ui/MODULES.md`, produces `modules/<name>/`:
+
+- `OVERVIEW.md` — module purpose, tier, polish budget, entry points, composite readiness
+- `FLOWS.md` — per-flow design (entry → steps → branches → exits) for each of 5 canonical patterns (linear, branching, save-and-resume, single-action, continuous)
+- `LAWS.md` — module-level Laws of UX:
+  - **Peak-End Rule** — identified peak + end moments per primary flow; polish budget concentrated there
+  - **Goal-Gradient Effect** — progress indicators tuned by step count; accelerator design
+  - **Zeigarnik Effect** — save-and-resume contracts; module-home incomplete-task pinning
+  - **Serial Position Effect** — primacy/recency ordering in nav, dashboards, menus, settings
+  - **Flow** — interruption budgets per flow; modal discipline
+  - **Selective Attention** — one winner per screen; notification placement strategy
+- `EMPTY-STATES.md` — module-specific empty / error / loading copy with 8 canonical patterns
+- `COMPOSITES.md` — module-scoped composite index with cross-variant consistency check
+- `BUILD-ORDER.md` — flow priority cuts by posture, per-flow MVP/V1/CRAFT cuts, critical path, parallel streams, stub strategy
+
+Polish budget governance: anchor modules get full 12-phase pass; occasional abbreviate phases 9–11; rare modules abbreviate phases 4–11 with reasons.
 
 ---
 
 ## Planned
 
-### `saas-ui-module` (next)
-
-Per-module flow design. For each module in `.saas-ui/MODULES.md`, produces `modules/<name>/`:
-
-- `FLOWS.md` — primary user flows with entry / exit / branch points
-- `LAWS.md` — module-level Laws of UX:
-  - **Peak-End Rule** — what's the peak moment of this module's experience? what's the end?
-  - **Goal-Gradient Effect** — multi-step flows show progress + accelerate near completion
-  - **Zeigarnik Effect** — incomplete tasks pull attention; design for resumability
-  - **Serial Position Effect** — first and last items remembered; rare-but-important items go at ends
-  - **Flow** — sustained attention design; avoid breaking flow with modal interruptions
-  - **Selective Attention** — one thing per screen wins
-- `COMPOSITES.md` — per-module variant deltas (links to composite VARIANTS.md)
-- `EMPTY-STATES.md` — module-specific empty state copy and recovery actions
-
-**Consumes:** `MODULES.md`, all relevant composite SPECs.
-
-**Estimated effort:** ~3 weeks of design after composite battle-testing reveals requirements.
-
----
-
-### `saas-ui-status` (after module)
+### `saas-ui-status` (next)
 
 Lightweight orchestrator. Reads `.saas-ui/STATE.md` and surfaces:
 

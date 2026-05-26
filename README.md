@@ -2,7 +2,7 @@
 
 > A multi-skill Claude Code framework for building enterprise SaaS UIs with the meticulousness of Linear and the extensiveness of ClickUp.
 
-**Status:** Early. Two of five skills shipped. Battle-testing in progress.
+**Status:** Three of five skills shipped (plus the cross-cutting execution-strategy layer). Battle-testing in progress.
 **Stack:** Next.js (App Router, SSR+CSR). React 19.
 **Author:** [@coder-ishan](https://github.com/coder-ishan)
 
@@ -26,11 +26,13 @@ This framework externalizes UI taste into **persistent planning artifacts** — 
 
 It's structured as a sequence of skills that mirror how a thoughtful design-engineer would actually plan an enterprise SaaS product:
 
-1. **`saas-ui-bootstrap`** — initial interview that produces the constitution and catalogs (shipped)
-2. **`saas-ui-composite`** — per-composite deep SPEC (DataTable, CommandPalette, etc.) — shipped
-3. **`saas-ui-module`** — per-module flow design (coming soon)
-4. **`saas-ui-status`** — orchestrator that tells you where you are (coming soon)
-5. **`saas-ui-audit`** — the critic; lints any artifact against the constitution (coming soon)
+1. **`saas-ui-bootstrap`** — initial interview that produces the constitution, catalogs, and execution-posture commitment (shipped, v0.3.0)
+2. **`saas-ui-composite`** — per-composite deep SPEC + implementation strategy (DataTable, CommandPalette, etc.) — shipped, v0.3.0
+3. **`saas-ui-module`** — per-module flow design + build order — shipped, v0.3.0
+4. **`saas-ui-status`** — orchestrator that tells you where you are (next)
+5. **`saas-ui-audit`** — the critic; lints any artifact against the constitution, posture-scaled strictness (coming soon)
+
+**Cross-cutting:** v0.3.0 added the **execution-strategy layer** — a single posture commitment (SPRINT / BALANCED / CRAFT) in bootstrap that flows downstream into composite IMPLEMENTATION.md and module BUILD-ORDER.md. Same design artifacts → different implementation cuts depending on what the team is shipping for.
 
 The framework is influenced by GSD's architectural pattern of multi-skill workflows with shared state directories.
 
@@ -40,11 +42,11 @@ The framework is influenced by GSD's architectural pattern of multi-skill workfl
 
 | Skill | Status | Purpose |
 |---|---|---|
-| [`saas-ui-bootstrap/`](saas-ui-bootstrap/) | ✅ shipped | 10-phase interview producing `.saas-ui/CONSTITUTION.md`, `PRINCIPLES.md`, `INVENTORY.md`, `MODULES.md`, `COMPOSITES.md`, `STATE.md`. |
-| [`saas-ui-composite/`](saas-ui-composite/) | ✅ shipped | Per-composite deep SPEC. Produces `composites/<name>/{SPEC, STATES, KEYBOARD, MOTION, EDGE-CASES, LAWS, VARIANTS}.md`. Enforces the Action Inventory contract (anti-duplicate-button). |
-| `saas-ui-module/` | 🚧 planned | Per-module flow design. Per-module Laws of UX (Peak-End, Goal-Gradient, Zeigarnik). |
-| `saas-ui-status/` | 🚧 planned | Lightweight orchestrator. Reads `.saas-ui/STATE.md`, tells you what to do next. |
-| `saas-ui-audit/` | 🚧 planned | The critic. Lints artifacts against the Constitution, the Inventory, and 17 LLM UI pathologies. |
+| [`saas-ui-bootstrap/`](saas-ui-bootstrap/) | ✅ v0.3.0 | 11-phase interview producing `.saas-ui/CONSTITUTION.md`, `PRINCIPLES.md`, `INVENTORY.md`, `MODULES.md`, `COMPOSITES.md`, `EXECUTION-POSTURE.md`, `STATE.md`. |
+| [`saas-ui-composite/`](saas-ui-composite/) | ✅ v0.3.0 | 12-phase per-composite deep SPEC + implementation strategy. Produces `composites/<name>/{SPEC, STATES, KEYBOARD, MOTION, EDGE-CASES, LAWS, VARIANTS, IMPLEMENTATION}.md`. Enforces the Action Inventory contract (anti-duplicate-button). |
+| [`saas-ui-module/`](saas-ui-module/) | ✅ v0.3.0 | 12-phase per-module flow design. Module-level Laws of UX (Peak-End, Goal-Gradient, Zeigarnik, Serial Position, Flow, Selective Attention). Produces `modules/<name>/{OVERVIEW, FLOWS, LAWS, EMPTY-STATES, COMPOSITES, BUILD-ORDER}.md`. |
+| `saas-ui-status/` | 🚧 next | Lightweight orchestrator. Reads `.saas-ui/STATE.md` + `EXECUTION-POSTURE.md`, tells you what to do next. |
+| `saas-ui-audit/` | 🚧 planned | The critic. Lints artifacts against the Constitution, the Inventory, and 17 LLM UI pathologies. Posture-scaled strictness. |
 
 See [ROADMAP.md](ROADMAP.md) for the future skills.
 
@@ -62,6 +64,7 @@ cd saas-ui-framework
 # Copy the skills you want into your Claude Code skills directory
 cp -r saas-ui-bootstrap ~/.claude/skills/
 cp -r saas-ui-composite ~/.claude/skills/
+cp -r saas-ui-module ~/.claude/skills/
 ```
 
 ### 2. Use
@@ -80,11 +83,19 @@ Once bootstrap is complete, for each composite you want to spec deeply:
 /saas-ui-composite DataTable
 ```
 
-This runs the 11-phase per-composite workflow. The output is read by future Claude sessions when they implement that composite.
+This runs the 12-phase per-composite workflow (SPEC, STATES, KEYBOARD, MOTION, EDGE-CASES, LAWS, VARIANTS, IMPLEMENTATION). The output is read by future Claude sessions when they implement that composite.
+
+For each module you want to design at flow level:
+
+```
+/saas-ui-module Inbox
+```
+
+This runs the 12-phase per-module workflow (OVERVIEW, FLOWS, LAWS, EMPTY-STATES, COMPOSITES, BUILD-ORDER) with module-level Laws of UX applied (Peak-End, Goal-Gradient, Zeigarnik, etc.).
 
 ### 3. The artifact set
 
-After running `saas-ui-bootstrap` and a few composite specs, your project has:
+After running the three skills, your project has:
 
 ```
 .saas-ui/
@@ -93,6 +104,7 @@ After running `saas-ui-bootstrap` and a few composite specs, your project has:
 ├── INVENTORY.md             ← Design system as a read-only constraint set
 ├── MODULES.md               ← Module catalog with tiers (anchor/occasional/rare)
 ├── COMPOSITES.md            ← Composite catalog with build order
+├── EXECUTION-POSTURE.md     ← Ship-pace + fidelity commitment (SPRINT/BALANCED/CRAFT)
 ├── STATE.md                 ← Phase tracking
 ├── composites/
 │   ├── data-table/
@@ -102,13 +114,26 @@ After running `saas-ui-bootstrap` and a few composite specs, your project has:
 │   │   ├── MOTION.md
 │   │   ├── EDGE-CASES.md
 │   │   ├── LAWS.md
-│   │   └── VARIANTS.md
+│   │   ├── VARIANTS.md
+│   │   └── IMPLEMENTATION.md ← MVP/V1/CRAFT cuts tuned to your posture
 │   └── command-palette/
+│       └── ...
+├── modules/
+│   ├── inbox/
+│   │   ├── OVERVIEW.md
+│   │   ├── FLOWS.md
+│   │   ├── LAWS.md
+│   │   ├── EMPTY-STATES.md
+│   │   ├── COMPOSITES.md
+│   │   └── BUILD-ORDER.md   ← Per-flow MVP cuts, critical path, parallel streams
+│   └── customers/
 │       └── ...
 └── references/              ← Annotated screenshots and external reference material
 ```
 
 These artifacts are the source of truth. Implementation code reads from them. Audits check against them. Future sessions inherit them.
+
+**The execution-strategy layer** (v0.3.0) is what lets the framework adapt to your team's actual constraints. The same SPEC ships differently under SPRINT (MVP for demo), BALANCED (V1 for paying customers), or CRAFT (Linear-grade for established product). Posture is committed once in bootstrap and flows downstream into every implementation decision.
 
 ---
 
